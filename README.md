@@ -71,5 +71,5 @@ When deployment completes you should see a message indicating that your app is r
 ibmcloud cf apps
 ```
 
-befor deploy to Heroku or IBM Cloud you need login your account.
+**Befor deploy to Heroku or IBM Cloud you need login your account.**
 
