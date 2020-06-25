@@ -6,13 +6,13 @@
 # author: syaoo
 ############
 
-from flask import Flask, make_response, request
+from flask import Flask, make_response, request, url_for, redirect
 import os
 app = Flask(__name__)
 port = int(os.getenv('PORT', 8000))
 @app.route('/')
 def index():
-    return "hello!"
+    return redirect(url_for('pac'))
     
 @app.route('/pac')
 def pac():

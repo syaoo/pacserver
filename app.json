@@ -2,7 +2,7 @@
   "name": "gpaca",
   "description": "A barebones Python app, which can easily be deployed to Heroku.",
   "image": "heroku/python",
-  "repository": "https://github.com/heroku/python-getting-started",
+  "repository": "repo adress",
   "keywords": ["python", "flask" ],
   "addons": [ "heroku-postgresql" ],
 }
