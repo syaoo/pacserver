@@ -52,4 +52,4 @@ if __name__ == "__main__":
     # app.run(host='0.0.0.0',debug=True,port=5020)
 
     # !!!! Remember to turn off debug mode when the web page goes online!!!!
-    app.run(host='0.0.0.0',port=5020)
+    app.run(host='0.0.0.0')
