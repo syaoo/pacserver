@@ -40,7 +40,7 @@ def pac():
     #  method b
     ###########################
     # Recommend this method
-    cmd = 'genpac --pac-proxy "SOCKS5 127.0.0.1:%s" --gfwlist-local "%s/gfwlist.txt" --user-rule "%s/user-rules.txt"' %(port,pdir)
+    cmd = 'genpac --pac-proxy "SOCKS5 127.0.0.1:%s" --gfwlist-local "%s/gfwlist.txt" --user-rule-from "%s/user-rules.txt"' %(port,pdir,pdir)
     gfwlist = os.popen(cmd)
     resp = make_response(gfwlist.read())
 
