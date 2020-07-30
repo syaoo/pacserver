@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style>
+    .manual {
+        width: 5%;
+    }
+    .id {
+        width: 5%;
+    }
+    .rule {
+        width: 85%;
+    }
+    .tb{
+        font-style: bold;
+        font-size: 110%;
+    }
+</style>
+
+<section class="section">
+    <h1>用户规则管理 <small> Welcome {{session.username}}</small></h1>
+    <p>
+        <a class="btn btn-primary" data-toggle="collapse" href="#collapseInput" role="button" aria-expanded="false" aria-controls="collapseExample">
+          添加规则
+        </a>
+        <a class="btn btn-primary" type="submit" id="genpac-button">生成规则</a>
+    </p>
+    <div class="collapse" id="collapseInput">
+        <form action="{{url_for('add_item')}}" method="post">
+        <div class="input-group mb-3">
+            <input type="text" name='rule' class="form-control" placeholder="如：||baidu.com" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">添加</button>
+            </div>
+        </div>
+        </form>
+    </div>
+    <hr>
+
+    <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th><a class="tb">ID</a></th>
+        <th><a class="tb">规则</a></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rules %}
+        <tr>
+          <td class="id">{{r['id']}}</td>
+          <td class="rule">{{r['rule']}}</td>
+          <td class="manual"><a href="/edit_item/{{r.id}}" class="btn btn-info pull-right btn-edit">Edit</a></td>
+          <td class="manual">
+            <form action="{{url_for('del_item', id=r.id)}}" method="post">
+              <input type="hidden" name="_method" value="DELETE">
+              <input type="submit" value="Delete" class="btn btn-danger">
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+</section>
+<div>
+  </script>
+{% endblock %}
