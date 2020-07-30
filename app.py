@@ -181,4 +181,4 @@ if __name__ == "__main__":
         passwd="123456"
         create_user(db,name,email,passwd)
         db.close()
-    app.run(host=0.0.0.0,port=port)
+    app.run(host="0.0.0.0",port=port)
