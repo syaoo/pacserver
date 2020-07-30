@@ -4,10 +4,10 @@ import sqlite3, os
 
 
 app = Flask(__name__)
-
+#port = int(os.getenv('PORT', 8000))
 app.config.update(dict(
     DATABASE='./resources/user-rules1.db',
-    DEBUG=True,
+    #DEBUG=True,
     SECRET_KEY='development key',
 ))
 
@@ -181,4 +181,4 @@ if __name__ == "__main__":
         passwd="123456"
         create_user(db,name,email,passwd)
         db.close()
-    app.run()
+    app.run(host=0.0.0.0)
