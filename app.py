@@ -2,6 +2,12 @@ from flask import Flask, render_template, session, redirect, url_for, \
     g, request,flash, make_response
 import sqlite3, os
 
+####
+# 继续完善：
+# 1. 编辑规则功能
+# 2. 显示服务器信息
+# 3. 用装饰器来增加已登录验证
+# 4. 增加404页面
 
 app = Flask(__name__)
 port = int(os.getenv('PORT', 8000))
@@ -43,7 +49,8 @@ def exportPAC():
         for i in cur.fetchall():
             f.write(i['rule'])
             f.write('\n')
-    return('Export Ok!')
+    flash('Export Ok!','success')
+    return redirect(url_for('index'))
 
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -65,7 +72,7 @@ def login():
             if passwd==res['passwd']:
                 session['logged_in'] = True
                 session['username'] = res['name']
-                flash('登录成功')
+                flash('登录成功','success')
                 return redirect(url_for('index'))
             else:
                 error="密码错误"
@@ -87,6 +94,7 @@ def index():
         return render_template('index.html',rules=items)
     else:
         return redirect(url_for('login'))
+
 @app.route('/add',methods=['POST'])
 def add_item():
     rule=request.form['rule']
@@ -97,17 +105,25 @@ def add_item():
     db.close()
     return redirect(url_for('index'))
 
-@app.route('/del/<string:id>',methods=['POST'])
-def del_item(id):
+# 路径传参数
+# @app.route('/del/<string:id>, <string:rule>',methods=['POST'])
+# def del_item(id,rule):
+# get传参数
+@app.route('/del',methods=['POST'])
+def del_item():
+    id = request.args.get('id')
+    rule = request.args.get('rule')
+
     db=sqlHandler(app.config['DATABASE'])
     db.exeOne('DELETE FROM rules WHERE id="{}"'.format(id))
     # item = cur.fetchone()
     db.close()
+    flash("已删除{}".format(rule),"success")
     return redirect(url_for('index'))
 
 @app.route('/edit/<string:id>',methods=['GET','POST'])
 def edit_item(id):
-    # 未完成
+    # 未完成 编辑规则
     db=sqlHandler(app.config['DATABASE'])
     cur = db.exeOne('SELECT * FROM rules WHERE id="{}"'.format(id))
     item = cur.fetchone()
@@ -123,9 +139,18 @@ def logout():
 @app.route('/about')
 def about():
     return render_template('about.html')
-
+@app.route('/info')
+def info():
+    return render_template('info.html')
 @app.route('/pac')
 def pac():
+    ############
+    # just used to get pac file according to parameters. 
+    # same as:https://tlanyan.me/trojan-pac.php?p=1080
+    # ver: 0.1
+    # date: 2020-06-16
+    # author: syaoo
+    ############
     cdir = os.path.dirname(__file__)
     print(cdir)
     # pdir = cdir+"/pac/" # source file path is different when debug is off or on.

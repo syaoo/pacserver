@@ -23,7 +23,7 @@
         <a class="btn btn-primary" data-toggle="collapse" href="#collapseInput" role="button" aria-expanded="false" aria-controls="collapseExample">
           添加规则
         </a>
-        <a class="btn btn-primary" type="submit" id="genpac-button">生成规则</a>
+        <a class="btn btn-primary" type="submit" id="genpac-button" href="/export">生成规则</a>
     </p>
     <div class="collapse" id="collapseInput">
         <form action="{{url_for('add_item')}}" method="post">
@@ -53,7 +53,8 @@
           <td class="rule">{{r['rule']}}</td>
           <td class="manual"><a href="/edit_item/{{r.id}}" class="btn btn-info pull-right btn-edit">Edit</a></td>
           <td class="manual">
-            <form action="{{url_for('del_item', id=r.id)}}" method="post">
+            <!-- <form action="{{url_for('del_item', id=r.id, rule=r.rule)}}" method="post"> -->
+              <form action="{{url_for('del_item', id=r.id, rule=r.rule)}}" method="post">
               <input type="hidden" name="_method" value="DELETE">
               <input type="submit" value="Delete" class="btn btn-danger">
             </form>
@@ -64,5 +65,4 @@
     </table>
 </section>
 <div>
-  </script>
 {% endblock %}
