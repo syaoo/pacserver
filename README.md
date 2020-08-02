@@ -16,12 +16,12 @@ A simple website for generating pac, with customizable ports (default 1080).Can 
 ```
 `app.json` - for Heroku, Describe project information.  
 `getpac.py` - app script.  
-`manifest.yml - for IBM Cloud Foundary, includes basic information about your app, such as the name, how much memory to allocate for each instance and the route.
+`manifest.yml - for IBM Cloud Foundary, includes basic information about your app, such as the name, how much memory to allocate for each instance and the route.  
 `pac/` - pac file.  
 `Procfile` - to explicitly declare what command should be executed to start your app.  
-`README.md`    
-`requirements.txt`  - requirements file, which is used by Python’s dependency manager.  
-`runtime.txt` - for Heroku (optional), specifying Python version.  
+`README.md`  
+`requirements.txt`  - requirements file, which is used by Python’s dependency manager.   
+`runtime.txt` - for Heroku (optional), specifying Python version.   
 
 about [Procfile](https://devcenter.heroku.com/articles/getting-started-with-python#define-a-procfile)
 
