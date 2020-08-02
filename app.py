@@ -205,7 +205,7 @@ def pac():
     pdir = "resources/"
     port = request.args.get('p')
     if port == None:
-        return "plz use url like this: 'host/pac?p=1801'"
+        return render_template('pac.html')
     if port == '':
         port = '1080'
 
