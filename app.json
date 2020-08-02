@@ -4,5 +4,5 @@
   "image": "heroku/python",
   "repository": "repo adress",
   "keywords": ["python", "flask" ],
-  "addons": [ "heroku-postgresql" ],
+  "addons": [ "heroku-postgresql" ]
 }

@@ -64,5 +64,22 @@
     </tbody>
     </table>
 </section>
+<section class="section">
+  <h1>PAC管理</h1>
+    <form action="{{ url_for('updatepac') }}" method="POST" id="form3">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <button class="btn btn-outline-secondary" type="submit">更新</button>
+        </div>
+        <select name="select" class="custom-select" id="inputGroupSelect03" aria-label="Example select with button addon">
+          <!-- <option selected>更新源...</option> -->
+          {% for s in pac_source %}
+            <option value="{{ s }}">{{ s }}</option>
+          {% endfor %}
+        </select>
+      </div>
+  </form>
+</section>
+
 <div>
 {% endblock %}

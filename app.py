@@ -1,6 +1,7 @@
 from flask import Flask, render_template, session, redirect, url_for, \
     g, request,flash, make_response
-import sqlite3, os
+from functools import wraps
+import sqlite3, os, json, requests
 
 ####
 # 继续完善：
@@ -13,7 +14,7 @@ app = Flask(__name__)
 port = int(os.getenv('PORT', 8000))
 app.config.update(dict(
     DATABASE='./resources/user-rules1.db',
-    #DEBUG=True,
+    DEBUG=True,
     SECRET_KEY='development key',
 ))
 
@@ -39,8 +40,21 @@ class sqlHandler:
         return cur
     def close(self):
         self.connect.close()
+
+# Check if user logged in
+def is_logged_in(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('Unauthorized, Please login', 'danger')
+            return redirect(url_for('login'))
+    return wrap
+
 @app.route('/export')
 # def exportPAC(db,PAC):
+@is_logged_in
 def exportPAC():
     pac='./resources/user-rules.txt'
     db=sqlHandler(app.config['DATABASE'])
@@ -86,16 +100,25 @@ def login():
     return render_template('login.html')
 
 @app.route('/')
+@is_logged_in
 def index():
-    if session.get('logged_in'):
-        db=sqlHandler(app.config['DATABASE'])
-        cur=db.exeOne('SELECT * FROM rules')
-        items = cur.fetchall()
-        return render_template('index.html',rules=items)
-    else:
-        return redirect(url_for('login'))
+    db=sqlHandler(app.config['DATABASE'])
+    cur=db.exeOne('SELECT * FROM rules')
+    items = cur.fetchall()
+    with open('./resources/pac_source.json','r') as f:
+        pac_source=json.loads(f.read())
+    
+    return render_template('index.html',rules=items,pac_source=pac_source['source'])
+    # if session.get('logged_in'):
+    #     db=sqlHandler(app.config['DATABASE'])
+    #     cur=db.exeOne('SELECT * FROM rules')
+    #     items = cur.fetchall()
+    #     return render_template('index.html',rules=items)
+    # else:
+    #     return redirect(url_for('login'))
 
 @app.route('/add',methods=['POST'])
+@is_logged_in
 def add_item():
     rule=request.form['rule']
     db=sqlHandler(app.config['DATABASE'])
@@ -110,6 +133,7 @@ def add_item():
 # def del_item(id,rule):
 # get传参数
 @app.route('/del',methods=['POST'])
+@is_logged_in
 def del_item():
     id = request.args.get('id')
     rule = request.args.get('rule')
@@ -122,6 +146,7 @@ def del_item():
     return redirect(url_for('index'))
 
 @app.route('/edit/<string:id>',methods=['GET','POST'])
+@is_logged_in
 def edit_item(id):
     # 未完成 编辑规则
     db=sqlHandler(app.config['DATABASE'])
@@ -131,6 +156,7 @@ def edit_item(id):
     return redirect(url_for('index'))
 
 @app.route('/logout')
+@is_logged_in
 def logout():
     session.clear()
     flash('You were logged out')
@@ -142,6 +168,28 @@ def about():
 @app.route('/info')
 def info():
     return render_template('info.html')
+
+@app.route('/updatepac',methods=['GET','POST'])
+@is_logged_in
+def updatepac():
+    source = request.form.get('select')
+    print('123')
+    try:
+        req = requests.get(source)
+        with open('./resources/gfwlist.txt','w') as f:
+            f.write(req.text)
+        print('ada')
+        flash('已从 "{}" 更新PAC'.format(source),'success')
+        print('af')
+        return redirect(url_for('index'))
+    except Exception as e:
+        print('afsss')
+        flash("更新失败: {}".format(e),'danger')
+        return redirect(url_for('index'))
+    
+    
+
+
 @app.route('/pac')
 def pac():
     ############
