@@ -14,7 +14,7 @@ app = Flask(__name__)
 port = int(os.getenv('PORT', 8000))
 app.config.update(dict(
     DATABASE='./resources/user-rules1.db',
-    DEBUG=True,
+    # DEBUG=True,
     SECRET_KEY='development key',
 ))
 
