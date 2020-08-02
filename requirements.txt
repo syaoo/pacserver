@@ -1,5 +1,4 @@
 
 Flask>=1.0.0
 genpac
-json
 requests
