@@ -50,6 +50,16 @@ git add .
 git commit -m "commit info"
 git push heroku master  # push to master branch            
 ```
+## ERROR
+
+### Error H10
+1.Setting a PORT as a Heroku environment variable
+```python
+port = int(os.getenv('PORT', 8000))
+```
+2.Missing Required Environment Variable 
+
+[Heroku Error Codes](https://devcenter.heroku.com/articles/error-codes#h10-app-crashed)
 
 ### on IBM Cloud
 
