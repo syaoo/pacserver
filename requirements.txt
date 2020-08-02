@@ -2,3 +2,4 @@
 Flask>=1.0.0
 gunicorn>=19.4.5
 genpac
+json
