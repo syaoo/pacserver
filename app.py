@@ -186,9 +186,6 @@ def updatepac():
         print('afsss')
         flash("更新失败: {}".format(e),'danger')
         return redirect(url_for('index'))
-    
-    
-
 
 @app.route('/pac')
 def pac():
@@ -229,6 +226,10 @@ def pac():
 
     resp.headers["Content-type"]="application/json;charset=UTF-8"
     return resp
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 def create_user(db,name,email,passwd):
     try:

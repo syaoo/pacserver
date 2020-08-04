@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}Page Not Found{% endblock %}
+{% block body %}
+<link href="https://fonts.googleapis.com/css?family=Montserrat:300,700" rel="stylesheet">
+<div class="container" style="margin-top: 20%;">
+<div id="notfound">
+    <div class="notfound">
+        <div class="notfound-404">
+        </div>
+        <h2>Oops! Page Not Be Found</h2>
+        <p>Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable</p>
+        <a href="{{ url_for('index') }}">Back to homepage</a>
+    </div>
+</div>
+</div>
+{% endblock %}
