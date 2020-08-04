@@ -14,14 +14,14 @@ A simple website for generating pac, with customizable ports (default 1080).Can 
 ├── requirements.txt
 └── runtime.txt
 ```
-app.json - for Heroku, Describe project information.
-getpac.py - app script.
-manifest.yml - for IBM Cloud Foundary, includes basic information about your app, such as the name, how much memory to allocate for each instance and the route.
-pac/ - pac file.
-Procfile - to explicitly declare what command should be executed to start your app.
-README.md
-requirements.txt - requirements file, which is used by Python’s dependency manager.
-runtime.txt - for Heroku (optional), specifying Python version.
+`app.json` - for Heroku, Describe project information.  
+`getpac.py` - app script.  
+`manifest.yml` - for IBM Cloud Foundary, includes basic information about your app, such as the name, how much memory to allocate for each instance and the route.  
+`pac/` - pac file.  
+`Procfile` - to explicitly declare what command should be executed to start your app.  
+`README.md`  
+`requirements.txt`  - requirements file, which is used by Python’s dependency manager.   
+`runtime.txt` - for Heroku (optional), specifying Python version.   
 
 about [Procfile](https://devcenter.heroku.com/articles/getting-started-with-python#define-a-procfile)
 
@@ -50,9 +50,9 @@ git add .
 git commit -m "commit info"
 git push heroku master  # push to master branch            
 ```
-## ERROR
+#### ERROR
 
-### Error H10
+##### Error H10
 1.Setting a PORT as a Heroku environment variable
 ```python
 port = int(os.getenv('PORT', 8000))
