@@ -83,3 +83,6 @@ ibmcloud cf apps
 
 **Befor deploy to Heroku or IBM Cloud you need login your account.**
 
+### Database
+I found Heroku does not support SQLite, it will lose the entire database at least every 24 hours, this has mentioned in Heroku's official document, and they recommend using PostgreSQL. In addition to PostgreSQL, I found [LeanCloud](https://leancloud.app) or [MongoDBAtlas](https://www.mongodb.com/cloud/atlas/) may be also a good choice, I'll test LeanCloud later. 
+

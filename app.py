@@ -1,7 +1,7 @@
 from flask import Flask, render_template, session, redirect, url_for, \
     g, request,flash, make_response
 from functools import wraps
-import sqlite3, os, json, requests
+import leancloud, os, json, requests
 
 ####
 # 继续完善：
@@ -13,33 +13,34 @@ import sqlite3, os, json, requests
 app = Flask(__name__)
 port = int(os.getenv('PORT', 8000))
 app.config.update(dict(
-    DATABASE='./resources/user-rules1.db',
+    # set leancloud key
+    APPID='mlFChkxWxz5LLkqf0eyQ4pCw-MdYXbMMI',
+    APPKEY='7afvqPRc7WoY21K5ACV0hhdo',
     # DEBUG=True,
-    SECRET_KEY='development key',
 ))
 
-class sqlHandler:
-    def __init__(self,dbPath):
-        self.dbPath=dbPath
-        self.connect = self.conndb()
+# class sqlHandler:
+#     def __init__(self,dbPath):
+#         self.dbPath=dbPath
+#         self.connect = self.conndb()
 
-    def conndb(self):
-        conn=sqlite3.connect(self.dbPath)
-        conn.row_factory=sqlite3.Row
-        return conn
+#     def conndb(self):
+#         conn=sqlite3.connect(self.dbPath)
+#         conn.row_factory=sqlite3.Row
+#         return conn
     
-    def exeScript(self,dbScript):
-        with self.connect:
-            with open(dbScript,'r') as f:
-                cur=self.connect.executescript(f.read())
-        return cur
+#     def exeScript(self,dbScript):
+#         with self.connect:
+#             with open(dbScript,'r') as f:
+#                 cur=self.connect.executescript(f.read())
+#         return cur
 
-    def exeOne(self,sql):
-        with self.connect:
-            cur = self.connect.execute(sql)
-        return cur
-    def close(self):
-        self.connect.close()
+#     def exeOne(self,sql):
+#         with self.connect:
+#             cur = self.connect.execute(sql)
+#         return cur
+#     def close(self):
+#         self.connect.close()
 
 # Check if user logged in
 def is_logged_in(f):
