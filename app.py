@@ -13,34 +13,14 @@ import leancloud, os, json, requests
 app = Flask(__name__)
 port = int(os.getenv('PORT', 8000))
 app.config.update(dict(
-    # set leancloud key
-    APPID='mlFChkxWxz5LLkqf0eyQ4pCw-MdYXbMMI',
-    APPKEY='7afvqPRc7WoY21K5ACV0hhdo',
+    # get leancloud appid and key from envirometn
+    APPID = os.getenv('LC_APPID'),
+    APPKEY = os.getenv('LC_APPKEY'),
     # DEBUG=True,
 ))
 
-# class sqlHandler:
-#     def __init__(self,dbPath):
-#         self.dbPath=dbPath
-#         self.connect = self.conndb()
 
-#     def conndb(self):
-#         conn=sqlite3.connect(self.dbPath)
-#         conn.row_factory=sqlite3.Row
-#         return conn
-    
-#     def exeScript(self,dbScript):
-#         with self.connect:
-#             with open(dbScript,'r') as f:
-#                 cur=self.connect.executescript(f.read())
-#         return cur
 
-#     def exeOne(self,sql):
-#         with self.connect:
-#             cur = self.connect.execute(sql)
-#         return cur
-#     def close(self):
-#         self.connect.close()
 
 # Check if user logged in
 def is_logged_in(f):
