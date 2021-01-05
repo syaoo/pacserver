@@ -82,16 +82,17 @@ class LcHandler:
         return  counter
         
     # delete one item
-    def item_del(self,ObjID):
+    def item_del(self,key_str,val):
         """
         delete item use objectID
         """
-        if isinstance(ObjID,str):
-            ObjID=[ObjID]
-        if isinstance(ObjID,list):
-            for i in ObjID:
-                entry = self.LC_class.create_without_data(i)
-                entry.destroy()
+        res = self.item_query(key_str,val)
+        print(len(res))
+        for i in res:
+            entry = self.LC_class.create_without_data(i.get('objectId'))
+            print("Del id is",i.get('objectId'))
+            print("Del id is",i.get('rule'))
+            entry.destroy()
 
 
 if __name__ == "__main__":

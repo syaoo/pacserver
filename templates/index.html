@@ -36,7 +36,7 @@
         </form>
     </div>
     <hr>
-
+    {% if rules %}
     <table class="table table-striped">
     <thead class="thead-light">
       <tr>
@@ -47,22 +47,25 @@
       </tr>
     </thead>
     <tbody>
-      {% for r in rules %}
-        <tr>
-          <td class="id">{{0}}</td>
-          <td class="rule">{{r}}</td>
-          <td class="manual"><a href="/edit_item/{{r.id}}" class="btn btn-info pull-right btn-edit">Edit</a></td>
-          <td class="manual">
-            <!-- <form action="{{url_for('del_item', id=r.id, rule=r.rule)}}" method="post"> -->
-              <form action="{{url_for('del_item', id=r.id, rule=r.rule)}}" method="post">
-              <input type="hidden" name="_method" value="DELETE">
-              <input type="submit" value="Delete" class="btn btn-danger">
-            </form>
-          </td>
-        </tr>
-      {% endfor %}
+      
+        {% for r in rules %}
+          <tr>
+            <td class="id">{{loop.index}}</td>
+            <td class="rule">{{r}}</td>
+            <td class="manual"><a href="/edit_item/{{r.id}}" class="btn btn-info pull-right btn-edit">Edit</a></td>
+            <td class="manual">
+              <!-- <form action="{{url_for('del_item', id=r.id, rule=r.rule)}}" method="post"> -->
+                <form action="{{url_for('del_item', id=loop.index, rule=r)}}" method="post">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="submit" value="Delete" class="btn btn-danger">
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      
     </tbody>
     </table>
+    {% endif %}
 </section>
 <section class="section">
   <h1>PAC管理</h1>

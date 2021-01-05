@@ -3,6 +3,7 @@ from flask import Flask, render_template, session, redirect, url_for, \
 from functools import wraps
 import leancloud, os, json, requests, sys
 from assist import LcHandler
+from gfw2pac import genpac
 
 ####
 # 继续完善：
@@ -37,7 +38,8 @@ def is_logged_in(f):
 @app.route('/export')
 @is_logged_in
 def exportPAC():
-    pac='./resources/user-rules.txt'
+    user = session.get('username')
+    pac='./resources/pac/{}-rules.txt'.format(user)
     LC_class=LcHandler(app.config['LC_DB'])
     try:
         res = LC_class.query.matched('rule', '.*', ignore_case=True)
@@ -96,9 +98,6 @@ def index():
         for i in res.find():
             print(i.get('rule'))
         items = [i.get('rule') for i in res.find()]
-        print('2+++++++++++++++++++++')
-        print(items)
-        print(items[0])
         with open('./resources/pac_source.json','r') as f:
             pac_source=json.loads(f.read())
         return render_template('index.html',rules=items,pac_source=pac_source['source'])
@@ -114,7 +113,7 @@ def add_item():
     LC_class=LcHandler(app.config['LC_DB'])
     try:
         print("++++++ add item ++++{}".format(rule))
-        c=LC_class.items_add({'rule':rule})
+        c=LC_class.items_add({'rule':rule},'rule')
         flash("Add {} items".format(c),"success")
         return redirect(url_for('index'))
     except leancloud.LeanCloudError as e:
@@ -130,7 +129,7 @@ def add_item():
 def del_item():
     id = request.args.get('id')
     rule = request.args.get('rule')
-
+    print("get rule",rule)
     LC_class=LcHandler(app.config['LC_DB'])
     LC_class.item_del('rule',rule)
     flash("delete {}".format(rule),"success")
@@ -167,7 +166,7 @@ def updatepac():
     print('123')
     try:
         req = requests.get(source)
-        with open('./resources/gfwlist.txt','w') as f:
+        with open('./resources/pac/gfwlist.txt','w') as f:
             f.write(req.text)
         print('ada')
         flash('已从 "{}" 更新PAC'.format(source),'success')
@@ -192,16 +191,24 @@ def pac():
     # pdir = cdir+"/pac/" # source file path is different when debug is off or on.
     pdir = "resources/"
     port = request.args.get('p')
+    user = request.args.get('u')
+    print("get user",user)
     if port == None:
         return render_template('pac.html')
     if port == '':
         port = '1080'
-
+    if (user == None or user == ''):
+        user='user' 
     # Recommend this method
-    cmd = 'genpac --pac-proxy "SOCKS5 127.0.0.1:%s" --gfwlist-local "%s/gfwlist.txt" --user-rule-from "%s/user-rules.txt"' %(port,pdir,pdir)
-    gfwlist = os.popen(cmd)
-    resp = make_response(gfwlist.read())
-
+    # cmd = 'genpac --pac-proxy "SOCKS5 127.0.0.1:%s" --gfwlist-local "%s/gfwlist.txt" --user-rule-from "%s/user-rules.txt"' %(port,pdir,pdir)
+    # gfwlist = os.popen(cmd)
+    # resp = make_response(gfwlist.read())
+    # use gfw2pac package
+    pac_str = genpac(fin = './resources/pac/gfwlist.txt', 
+            proxy = 'SOCKS5 127.0.0.1:{}'.format(port),
+            other = 'resources/pac/{}-rules.txt'.format(user), 
+            precise = True)
+    resp = make_response(pac_str)
     resp.headers["Content-type"]="application/json;charset=UTF-8"
     return resp
 
