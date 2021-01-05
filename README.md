@@ -87,4 +87,4 @@ ibmcloud cf apps
 I found Heroku does not support SQLite, it will lose the entire database at least every 24 hours, this has mentioned in Heroku's official document, and they recommend using PostgreSQL. In addition to PostgreSQL, I found [LeanCloud](https://leancloud.app) or [MongoDBAtlas](https://www.mongodb.com/cloud/atlas/) may be also a good choice, I'll test LeanCloud later. 
 
 ## Changelog
-- 2021.01.04: use LeanCloud save date.
+- 2021.01.04: use LeanCloud save date.,add user parameter: http://hostname/pac?p=post&u=username.
