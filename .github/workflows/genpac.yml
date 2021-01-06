@@ -16,9 +16,9 @@ jobs:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: pre
-        run: sudo apt-get install python3-setuptools
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.7.x"
       # Runs the Super-Linter action
       - name: Install require
         run: pip3 install -r ./requirements.txt
