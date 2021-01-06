@@ -65,8 +65,17 @@ heroku git:remoter -a appname # <appname> is Heroku app name
 git remote add heroku herokuapp-git-url
 ```
 
-3. deploy on Heroku
+4. Setting environment variables
 ```bash
+heroku config:set LC_APPID=AppId
+heroku config:set LC_APPKEY=AppKey
+# check variables
+heroku config
+```
+
+5. deploy on Heroku
+```bash
+# push to heroku
 git add .
 git commit -m "commit info"
 git push heroku master  # push to master branch 
