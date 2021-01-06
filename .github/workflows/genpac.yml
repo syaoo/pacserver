@@ -22,7 +22,8 @@ jobs:
       # Runs the Super-Linter action
       - name: Install require
         run: pip3 install -r ./requirements.txt
-
+      - name: check ip
+        run: curl ipinfo.io
       # Run server
       - name: Run server
         env:
