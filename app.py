@@ -253,7 +253,10 @@ if __name__ == "__main__":
         sys.exit(0)
     leancloud.init(APPID, APPKEY)
     args=sys.argv
-    init = args[1]
+    if len(args)>1:
+        init = args[1]
+    else:
+        init=False
     if init=='True':
         print(":++++++++++++++++++++:")
         db = app.config['LC_USER']
