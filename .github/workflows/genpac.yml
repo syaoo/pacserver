@@ -25,4 +25,7 @@ jobs:
 
       # Run server
       - name: Run server
+        env:
+                LC_APPID: mlFChkxWxz5LLkqf0eyQ4pCw-MdYXbMMI
+                LC_APPKEY: 7afvqPRc7WoY21K5ACV0hhdo
         run: python3 ./app.py
