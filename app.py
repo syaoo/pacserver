@@ -190,20 +190,20 @@ def pac():
     print(cdir)
     # pdir = cdir+"/pac/" # source file path is different when debug is off or on.
     pdir = "resources/"
+
     port = request.args.get('p')
-    user = request.args.get('u')
-    ptype = request.args.get('t')
-    print("get user",user)
     if port == None:
         return render_template('pac.html')
     if port == '':
         port = '1080'
+    user = request.args.get('u')
     if (user == None or user == ''):
         user='user' 
-    if (ptype[0].upper() == 'F'):
-        ptype = False
-    else:
+    ptype = request.args.get('t')
+    if ptype == None or ptype.upper() != 'FALSE':
         ptype = True 
+    else:
+        ptype = False
 
     # Recommend this method
     # cmd = 'genpac --pac-proxy "SOCKS5 127.0.0.1:%s" --gfwlist-local "%s/gfwlist.txt" --user-rule-from "%s/user-rules.txt"' %(port,pdir,pdir)
