@@ -27,28 +27,51 @@ about [Procfile](https://devcenter.heroku.com/articles/getting-started-with-pyth
 
 ## how to use
 
+### Create a LeanCloud acount and get AppID and AppKey
+1. If you don't have a LeanCloud account, register it at https://leancloud.app/
+2. Creat a LeanCloud app and get  AppID and AppKey at `Settings`-`App keys`
+
 ### on a host
 1. install requirements
 `pip3 install -r requirements.txt`
-2. run app
+
+2. set `LC_APPID` and `LC_APPKEY`
+```shell
+export LC_APPID=AppId
+export LC_APPKEY=AppKey
+```
+
+3. run app
 You can run it directly in python, though it's best deployed through a WSGI (uWSGI, FastCGI) service.
 
 ### on [Heroku](https://devcenter.heroku.com/articles/getting-started-with-python)
 
+1. Login herku and creat an app
 ```bash
+# login heroku
+herku login
 # creat an new app
-heroku create
+heroku create appname
 ```
-1. init git repo and connet app repo on Heroku
+
+2. init git repo and connet app repo on Heroku
 ```bash
 git init
 heroku git:remoter -a appname # <appname> is Heroku app name
 ```
-2. deploy on Heroku
+3. If it is an existing project
+```bash
+# add remote
+git remote add heroku herokuapp-git-url
+```
+
+3. deploy on Heroku
 ```bash
 git add .
 git commit -m "commit info"
-git push heroku master  # push to master branch            
+git push heroku master  # push to master branch 
+# or
+git push heroku otherbranch:master 
 ```
 #### ERROR
 
@@ -87,4 +110,4 @@ ibmcloud cf apps
 I found Heroku does not support SQLite, it will lose the entire database at least every 24 hours, this has mentioned in Heroku's official document, and they recommend using PostgreSQL. In addition to PostgreSQL, I found [LeanCloud](https://leancloud.app) or [MongoDBAtlas](https://www.mongodb.com/cloud/atlas/) may be also a good choice, I'll test LeanCloud later. 
 
 ## Changelog
-- 2021.01.04: use LeanCloud save date.,add user parameter: http://hostname/pac?p=post&u=username.
+- 2021.01.04: use LeanCloud save date.,add user parameter: http://hostname/pac?p=post&u=username&t=False.
