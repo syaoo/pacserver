@@ -6,5 +6,5 @@ c=genpac(fin = './resources/pac/gfwlist.txt',
         fout = './t121', 
         proxy = 'SOCKS5 127.0.0.1:90',
         other = 'resources/pac/user-rules.txt', 
-        precise = True)
+        precise = False)
 # print(c)

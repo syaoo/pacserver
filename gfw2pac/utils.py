@@ -44,7 +44,7 @@ def get_gfwlist(fpath):
 def add_domain_to_set(s, something):
     http = something.startswith("http:")
     https = something.startswith("https:")
-    if (http or https):
+    if (not http or not https):
         something = 'http://' + something
     u = parse.urlparse(something)
     hostname = u.hostname
