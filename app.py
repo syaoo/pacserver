@@ -20,7 +20,7 @@ app.config.update(dict(
     LC_USER = "pac_user",
     APPID = os.getenv('LC_APPID'),
     APPKEY = os.getenv('LC_APPKEY'),
-    DEBUG=True,
+    # DEBUG=True,
     SECRET_KEY='development key',
 ))
 
@@ -192,6 +192,7 @@ def pac():
     pdir = "resources/"
     port = request.args.get('p')
     user = request.args.get('u')
+    ptype = request.args.get('t')
     print("get user",user)
     if port == None:
         return render_template('pac.html')
@@ -199,6 +200,11 @@ def pac():
         port = '1080'
     if (user == None or user == ''):
         user='user' 
+    if (ptype[0].upper() == 'F'):
+        ptype = False
+    else:
+        ptype = True 
+
     # Recommend this method
     # cmd = 'genpac --pac-proxy "SOCKS5 127.0.0.1:%s" --gfwlist-local "%s/gfwlist.txt" --user-rule-from "%s/user-rules.txt"' %(port,pdir,pdir)
     # gfwlist = os.popen(cmd)
@@ -207,7 +213,7 @@ def pac():
     pac_str = genpac(fin = './resources/pac/gfwlist.txt', 
             proxy = 'SOCKS5 127.0.0.1:{}'.format(port),
             other = 'resources/pac/{}-rules.txt'.format(user), 
-            precise = True)
+            precise = ptype)
     resp = make_response(pac_str)
     resp.headers["Content-type"]="application/json;charset=UTF-8"
     return resp
